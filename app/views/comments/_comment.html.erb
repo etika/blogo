@@ -1,0 +1,51 @@
+
+
+<p class="jumbotron">
+  <strong>Comment:</strong>
+  <%= comment.body %></br>
+   By :     <%= comment.user.email%></br>
+     <%= link_to 'Delete', [comment.post, comment],
+                        method: :delete,
+                        data: { confirm: 'Are you sure?' } %>
+      <span class="reply"> Reply</span>
+    <%if comment.replies.present?%>
+          	<span style="float:right">
+          		          	Replies:
+
+    <%comment.replies.each do |l|%>
+        <strong>Comment:</strong>
+        <%= l.body %></br>
+        By :     <%= l.user.email%></br>
+        <%= link_to 'Delete', [l.post, l],
+                        method: :delete,
+                        data: { confirm: 'Are you sure?' } %>
+       <span class="reply"> Reply</span></br>
+      <%end%>
+  </span>
+    <%end%>
+   <div class="show_comment" style="display: none;">
+
+   <%= form_for([comment.post, comment.post.comments.build]) do |f| %>
+
+  <p>
+    <%= f.label :body %><br>
+    <%= f.text_area :body, :class => 'Form__text' %>
+  </p>
+    <%= f.hidden_field :user_id, :value => current_user.id %>
+    <%= f.hidden_field :post_id, :value => @post.id %>
+    <%= f.hidden_field :parent_id, :value => comment.id %>
+  <p>
+    <%= f.submit 'Submit', :class => 'Form__whiteDark' %>
+  </p>
+  <% end %>
+   </div>
+</p>
+
+
+
+<script type="text/javascript">
+	$(".reply").click(function(){
+       $(this).closest("div").find(".show_comment").show();
+     });
+
+</script>
