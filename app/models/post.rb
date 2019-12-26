@@ -4,4 +4,7 @@ class Post < ApplicationRecord
   belongs_to :user
   has_many :comments
   friendly_id :title, use: :slugged
+  validates_presence_of :title,:body
+  scope :active, ->() { where(status: true) }
+  scope :inactive, ->() { where(status: false) }
 end
