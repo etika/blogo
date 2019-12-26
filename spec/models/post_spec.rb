@@ -45,4 +45,15 @@ RSpec.describe Post, type: :model do
       expect(Post.inactive.count).to eq(2)
     end
   end
+
+  context "with 2 or more comments" do 
+     user=User.create(email:"kkkk@kkkoop.com",password:"abcdefg")
+     let(:params) { { body: "Content of the body7", title: "Title2", status: true, user_id: user.id} }
+    it "orders them in reverse chronologically" do
+     post=  Post.create(params)
+     comment1 = post.comments.create!(:body => "first comment", user_id: user.id, post_id: post.id) 
+     comment2 = post.comments.create!(:body => "second comment",user_id: user.id, post_id: post.id) 
+     expect(post.reload.comments).to eq([comment1, comment2]) 
+   end 
+ end
 end
