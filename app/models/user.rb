@@ -3,8 +3,8 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
     ROLES = %w[admin moderator author banned].freeze
   has_many :comments
-  has_many :posts, :through => :comments  
-  devise :database_authenticatable, :registerable,
+  has_many :posts
+    devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
 end
